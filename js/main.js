@@ -4,8 +4,8 @@
 document.querySelector('.click').addEventListener('click', getFetch)
 
 function getFetch(){
-    const choice = document.querySelector('input').value
-    
+    const choice = document.querySelector('input').value.toLowerCase()
+  
     const url = `https://pokeapi.co/api/v2/pokemon/${choice}`
   
     fetch(url)
