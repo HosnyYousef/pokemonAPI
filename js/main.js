@@ -2,20 +2,66 @@
 
 //==================================================
 
+
+
+document.querySelector('.click').addEventListener('click', getFetch)
+
+function getFetch() {
+  const choice = document.querySelector('input').value.toLowerCase();
+
+  fetch(`https://pokeapi.co/api/v2/pokemon/${choice}`)
+
+    .then(res => res.json())
+    .then(data => {
+      console.log('Pokemon data:', data);
+      return fetch(data.location_area_encounters);
+    })
+
+    .then(res => res.json())
+    .then(locationData => {
+      console.log('Location data:', locationData);
+
+      document.querySelector('h4').innerText = '';
+
+      const ul = document.createElement('ul');
+
+      locationData.forEach(location => {
+        const li = document.createElement('li');
+        li.innerText = location.location_area.name;
+        ul.appendChild(li);
+      });
+
+
+      document.querySelector('h4').after(ul);
+    })
+    .catch(err => {
+      console.error(`error ${err}`);
+      document.querySelector('h4').innerText = "Error fetching location data";
+    });
+
+}
+
+
 // document.querySelector('.click').addEventListener('click', getFetch)
+// // event listener to click to start function
 
 // function getFetch() {
 //   const choice = document.querySelector('input').value.toLowerCase();
+// // create a variable/container to store the input(whatever pokemon user types in), and make it lowercase. Choice 
 
 //   fetch(`https://pokeapi.co/api/v2/pokemon/${choice}`)
+//   // fetch/go inside the API, we place the link/API that we want to use, with object literal choice to user to be able to choose what information they want from the link/API
 //     .then(res => res.json()) // parse response as JSON
+//     // we extract the data from link, and make it reable for people and computer
 //     .then(data => {
 //       console.log('Pokemon data:', data);
-
+//     // we start using the data that we extracted. We do what we want with it now
 //       // data.location_area_encounters is typically a URL to another API endpoint
-//       return fetch(data.location_area_encounters); // start the next fetch here
+//       return fetch(data.location_area_encounters); // start the next fetch here, to go further inside the API
+//       // we now go again into the focused API attribute of location
 //     })
 //     .then(res => res.json())
+//       // go inside of the data.location_area_encounters and to make it readable for poeple and comptuer
 //     // Fetch function remains the same up to the point where you handle locationData
 // .then(locationData => {
 //   console.log('Location data:', locationData);
@@ -42,55 +88,7 @@
 //   document.querySelector('h4').innerText = "Error fetching location data";
 // });
 
-
-
-document.querySelector('.click').addEventListener('click', getFetch)
-// event listener to click to start function
-
-function getFetch() {
-  const choice = document.querySelector('input').value.toLowerCase();
-// create a variable/container to store the input(whatever pokemon user types in), and make it lowercase. Choice 
-
-  fetch(`https://pokeapi.co/api/v2/pokemon/${choice}`)
-  // fetch/go inside the API, we place the link/API that we want to use, with object literal choice to user to be able to choose what information they want from the link/API
-    .then(res => res.json()) // parse response as JSON
-    // we extract the data from link, and make it reable for people and computer
-    .then(data => {
-      console.log('Pokemon data:', data);
-    // we start using the data that we extracted. We do what we want with it now
-      // data.location_area_encounters is typically a URL to another API endpoint
-      return fetch(data.location_area_encounters); // start the next fetch here, to go further inside the API
-      // we now go again into the focused API attribute of location
-    })
-    .then(res => res.json())
-      // go inside of the data.location_area_encounters and to make it readable for poeple and comptuer
-    // Fetch function remains the same up to the point where you handle locationData
-.then(locationData => {
-  console.log('Location data:', locationData);
-
-  // Clear previous results
-  document.querySelector('h4').innerText = '';
-
-  // Create a new ul element
-  const ul = document.createElement('ul');
-
-  // Iterate over locationData and append each location as a list item
-  locationData.forEach(location => {
-    const li = document.createElement('li');   // Create a new li element
-    li.innerText = location.location_area.name; // Set the text of li to the location name
-    ul.appendChild(li);                         // Append the li to the ul
-  });
-
-  // Append the ul to the h4 or to another desired element
-  document.querySelector('h4').after(ul);
-})
-.catch(err => {
-  console.error(`error ${err}`);
-  // Display error in h4 if something goes wrong
-  document.querySelector('h4').innerText = "Error fetching location data";
-});
-
-}
+// }
 
 
 //ALLOWS FOR ONE LOCATION TO BE DISPLAYED, AND FIXED PROBLEM
