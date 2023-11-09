@@ -16,23 +16,32 @@
 //       return fetch(data.location_area_encounters); // start the next fetch here
 //     })
 //     .then(res => res.json())
-//     .then(locationData => {
-//       console.log('Location data:', locationData);
+//     // Fetch function remains the same up to the point where you handle locationData
+// .then(locationData => {
+//   console.log('Location data:', locationData);
 
-//       // Clear previous results
-//       document.querySelector('h4').innerText = '';
-      
-//       // Add all locations to the innerText of h4
-//       locationData.forEach((location, index) => {
-//         document.querySelector('h4').innerText += `${location.location_area.name}${index < locationData.length - 1 ? ', ' : ''}`;
-//       });
-//     })
-//     .catch(err => {
-//       console.error(`error ${err}`);
-//       // Display error in h4 if something goes wrong
-//       document.querySelector('h4').innerText = "Error fetching location data";
-//     });
-// }
+//   // Clear previous results
+//   document.querySelector('h4').innerText = '';
+
+//   // Create a new ul element
+//   const ul = document.createElement('ul');
+
+//   // Iterate over locationData and append each location as a list item
+//   locationData.forEach(location => {
+//     const li = document.createElement('li');   // Create a new li element
+//     li.innerText = location.location_area.name; // Set the text of li to the location name
+//     ul.appendChild(li);                         // Append the li to the ul
+//   });
+
+//   // Append the ul to the h4 or to another desired element
+//   document.querySelector('h4').after(ul);
+// })
+// .catch(err => {
+//   console.error(`error ${err}`);
+//   // Display error in h4 if something goes wrong
+//   document.querySelector('h4').innerText = "Error fetching location data";
+// });
+
 
 
 document.querySelector('.click').addEventListener('click', getFetch)
@@ -55,23 +64,32 @@ function getFetch() {
     })
     .then(res => res.json())
       // go inside of the data.location_area_encounters and to make it readable for poeple and comptuer
-    .then(locationData => {
-      console.log('Location data:', locationData);
-        //to take out the specific data we want out of the API
-      // Clear previous results
-      document.querySelector('h4').innerText = '';
-        //to place the result on the page, we use a '' to make sure whatever we put is a string
-      // Add all locations to the innerText of h4
-      locationData.forEach((location, index) => {
-        document.querySelector('h4').innerText += `${location.location_area.name}${index < locationData.length - 1 ? ', ' : ''}`;
-        //we iterate through each elements and index placing the result
-      });
-    })
-    .catch(err => {
-      console.error(`error ${err}`);
-      // Display error in h4 if something goes wrong
-      document.querySelector('h4').innerText = "Error fetching location data";
-    });
+    // Fetch function remains the same up to the point where you handle locationData
+.then(locationData => {
+  console.log('Location data:', locationData);
+
+  // Clear previous results
+  document.querySelector('h4').innerText = '';
+
+  // Create a new ul element
+  const ul = document.createElement('ul');
+
+  // Iterate over locationData and append each location as a list item
+  locationData.forEach(location => {
+    const li = document.createElement('li');   // Create a new li element
+    li.innerText = location.location_area.name; // Set the text of li to the location name
+    ul.appendChild(li);                         // Append the li to the ul
+  });
+
+  // Append the ul to the h4 or to another desired element
+  document.querySelector('h4').after(ul);
+})
+.catch(err => {
+  console.error(`error ${err}`);
+  // Display error in h4 if something goes wrong
+  document.querySelector('h4').innerText = "Error fetching location data";
+});
+
 }
 
 
