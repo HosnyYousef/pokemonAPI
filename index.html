@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pokédex — search any Pokémon and find their locations">
+    <meta name="description" content="Pokédex — search any Pokémon and find their stats and locations">
     <title>Pokédex</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,51 +35,45 @@
         <p class="search-hint">Try: Pikachu, Charizard, Mewtwo</p>
       </section>
 
-      <section class="result-section">
-        <div class="result"></div>
+      <section class="card-section" id="card-section" style="display:none;">
+        <div class="poke-card">
+          <div class="card-left">
+            <div class="poke-number" id="poke-number">#000</div>
+            <div class="poke-img-wrapper">
+              <img id="poke-img" src="" alt="Pokemon sprite" />
+            </div>
+            <div class="poke-types" id="poke-types"></div>
+          </div>
+          <div class="card-right">
+            <h2 class="poke-name" id="poke-name">—</h2>
+            <div class="poke-meta" id="poke-meta"></div>
+            <div class="stats-section">
+              <div class="stats-title">BASE STATS</div>
+              <div class="stats-list" id="stats-list"></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="locations-section" id="locations-section" style="display:none;">
         <h2 class="section-title">ENCOUNTER LOCATIONS</h2>
-        <h4 class="locations-list"></h4>
+        <div class="locations-list" id="locations-list"></div>
       </section>
 
       <section class="starters-section">
         <h2 class="section-title">STARTER POKÉMON</h2>
         <ul class="starters-grid">
-          <li>Bulbasaur</li>
-          <li>Ivysaur</li>
-          <li>Venusaur</li>
-          <li>Charmander</li>
-          <li>Charmeleon</li>
-          <li>Charizard</li>
-          <li>Squirtle</li>
-          <li>Blastoise</li>
-          <li>Caterpie</li>
-          <li>Metapod</li>
-          <li>Butterfree</li>
-          <li>Weedle</li>
-          <li>Kakuna</li>
-          <li>Beedrill</li>
-          <li>Pidgey</li>
-          <li>Pidgeot</li>
-          <li>Rattata</li>
-          <li>Raticate</li>
+          <li>Bulbasaur</li><li>Ivysaur</li><li>Venusaur</li>
+          <li>Charmander</li><li>Charmeleon</li><li>Charizard</li>
+          <li>Squirtle</li><li>Blastoise</li><li>Caterpie</li>
+          <li>Metapod</li><li>Butterfree</li><li>Weedle</li>
+          <li>Kakuna</li><li>Beedrill</li><li>Pidgey</li>
+          <li>Pidgeot</li><li>Rattata</li><li>Raticate</li>
         </ul>
       </section>
 
     </div>
 
     <script type="text/javascript" src="js/main.js"></script>
-    <script>
-      // Enhance result display
-      const origGetFetch = getFetch;
-      document.querySelector('.click').addEventListener('click', function() {
-        const locSection = document.getElementById('locations-section');
-        const h4 = document.querySelector('.locations-list');
-        h4.innerHTML = '<span class="loading">SCANNING...</span>';
-        locSection.style.display = 'block';
-      });
-    </script>
   </body>
 </html>
