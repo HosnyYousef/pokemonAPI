@@ -1,32 +1,22 @@
-// Stat name display mapping
 const statNames = {
   'hp': 'HP',
-  'attack': 'Attack',
-  'defense': 'Defense',
-  'special-attack': 'Sp. Atk',
-  'special-defense': 'Sp. Def',
-  'speed': 'Speed'
+  'attack': 'ATK',
+  'defense': 'DEF',
+  'special-attack': 'SP.ATK',
+  'special-defense': 'SP.DEF',
+  'speed': 'SPD'
 }
 
-// Stat bar color based on value
-function statColor(val) {
-  if (val >= 100) return '#39d353'
-  if (val >= 70)  return '#f7d02c'
-  if (val >= 45)  return '#F08030'
-  return '#e3350d'
-}
-
-// Click search button
 document.querySelector('.click').addEventListener('click', getFetch)
 
-// Press Enter to search
 document.querySelector('.search-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') getFetch()
 })
 
-// Click a starter to auto-search
-document.querySelectorAll('.starters-grid li').forEach(li => {
+document.querySelectorAll('.pokemon-grid li').forEach(li => {
   li.addEventListener('click', () => {
+    document.querySelectorAll('.pokemon-grid li').forEach(l => l.classList.remove('active'))
+    li.classList.add('active')
     document.querySelector('.search-input').value = li.innerText
     getFetch()
   })
@@ -36,100 +26,88 @@ function getFetch() {
   const choice = document.querySelector('.search-input').value.toLowerCase().trim()
   if (!choice) return
 
-  const cardSection = document.getElementById('card-section')
-  const locSection = document.getElementById('locations-section')
+  const screen = document.getElementById('screen')
+  const locBox = document.getElementById('locations-box')
   const locList = document.getElementById('locations-list')
 
-  // Show loading state
-  cardSection.style.display = 'none'
-  locSection.style.display = 'block'
+  // Loading state on screen
+  screen.innerHTML = `
+    <div class="screen-idle">
+      <div class="idle-ball"></div>
+      <p class="idle-text">LOADING...</p>
+    </div>
+  `
+  locBox.style.display = 'block'
   locList.innerHTML = '<span class="loading">SCANNING...</span>'
 
-  fetch(`https://pokeapi.co/api/v2/pokemon/${choice}`)
+  fetch(`https://pokeapi.co/api/v2/pokemon/${choice.toLowerCase().replace(/[♀♂]/g, '')}`)
     .then(res => {
       if (!res.ok) throw new Error('not found')
       return res.json()
     })
     .then(data => {
-      renderCard(data)
-
-      // Fetch locations separately
+      renderScreen(data)
       return fetch(data.location_area_encounters)
     })
     .then(res => res.json())
-    .then(locationData => {
-      renderLocations(locationData)
-    })
+    .then(locationData => renderLocations(locationData))
     .catch(err => {
       console.error(err)
-      cardSection.style.display = 'none'
-      locSection.style.display = 'block'
-      locList.innerHTML = `<span style="color: var(--red); font-size: 0.8rem;">Could not find "${choice}". Check spelling and try again.</span>`
+      screen.innerHTML = `
+        <div class="screen-idle">
+          <p class="idle-text">NOT FOUND</p>
+        </div>
+      `
+      locList.innerHTML = `<span style="color:#e03020; font-size:0.75rem;">Could not find "${choice}". Check spelling.</span>`
     })
 }
 
-function renderCard(data) {
-  const cardSection = document.getElementById('card-section')
+function renderScreen(data) {
+  const screen = document.getElementById('screen')
 
-  // Number
-  document.getElementById('poke-number').innerText = `#${String(data.id).padStart(3, '0')}`
-
-  // Image — prefer official artwork, fall back to sprite
-  const img = document.getElementById('poke-img')
-  img.src = data.sprites.other['official-artwork'].front_default
-    || data.sprites.front_default
-    || ''
-  img.alt = data.name
-
-  // Name
-  document.getElementById('poke-name').innerText = data.name.toUpperCase()
-
-  // Types
-  const typesEl = document.getElementById('poke-types')
-  typesEl.innerHTML = data.types.map(t =>
-    `<span class="type-badge type-${t.type.name}">${t.type.name}</span>`
+  const img = data.sprites.other['official-artwork'].front_default || data.sprites.front_default || ''
+  const number = String(data.id).padStart(3, '0')
+  const types = data.types.map(t =>
+    `<span class="screen-type">${t.type.name}</span>`
   ).join('')
 
-  // Meta (height / weight)
-  document.getElementById('poke-meta').innerHTML = `
-    <span><strong>${(data.height / 10).toFixed(1)}m</strong>Height</span>
-    <span><strong>${(data.weight / 10).toFixed(1)}kg</strong>Weight</span>
-    <span><strong>${data.base_experience || '—'}</strong>Base XP</span>
-  `
-
-  // Stats
-  const statsList = document.getElementById('stats-list')
-  statsList.innerHTML = data.stats.map(s => {
+  const stats = data.stats.map(s => {
     const name = statNames[s.stat.name] || s.stat.name
     const val = s.base_stat
     const pct = Math.min((val / 255) * 100, 100)
-    const color = statColor(val)
     return `
-      <div class="stat-row">
-        <span class="stat-name">${name}</span>
-        <span class="stat-val">${val}</span>
-        <div class="stat-bar-bg">
-          <div class="stat-bar" style="width: ${pct}%; background: ${color};"></div>
+      <div class="screen-stat-row">
+        <span class="screen-stat-name">${name}</span>
+        <span class="screen-stat-val">${val}</span>
+        <div class="screen-stat-bar-bg">
+          <div class="screen-stat-bar" style="width:${pct}%"></div>
         </div>
       </div>
     `
   }).join('')
 
-  cardSection.style.display = 'block'
+  screen.innerHTML = `
+    <div class="screen-content">
+      <span class="screen-number">#${number}</span>
+      <div class="screen-img-wrap">
+        <img src="${img}" alt="${data.name}" />
+      </div>
+      <div class="screen-name">${data.name.toUpperCase()}</div>
+      <div class="screen-types">${types}</div>
+      <div class="screen-stats">${stats}</div>
+    </div>
+  `
 }
 
 function renderLocations(locationData) {
-  const locSection = document.getElementById('locations-section')
   const locList = document.getElementById('locations-list')
 
   if (!locationData || locationData.length === 0) {
-    locList.innerHTML = '<span style="color: var(--text-dim); font-size: 0.8rem;">No wild encounter locations found.</span>'
+    locList.innerHTML = '<span style="color:var(--text-dim); font-size:0.75rem;">No wild encounter locations found.</span>'
     return
   }
 
   locList.innerHTML = locationData.map(loc =>
     `<span class="location-tag">${loc.location_area.name.replaceAll('-', ' ')}</span>`
   ).join('')
-
-  locSection.style.display = 'block'
 }

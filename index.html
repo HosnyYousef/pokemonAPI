@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pokédex — search any Pokémon and find their stats and locations">
     <title>Pokédex</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,56 +12,65 @@
   </head>
   <body>
 
-    <div class="scanline"></div>
+    <div class="page-bg"></div>
 
-    <div class="container">
+    <div class="page-container">
 
-      <header class="header">
-        <div class="pokeball-icon">
-          <div class="ball-top"></div>
-          <div class="ball-middle"></div>
-          <div class="ball-bottom"></div>
-        </div>
-        <h1 class="title">POKÉDEX</h1>
-        <p class="subtitle">GENERATION I — 151 POKÉMON</p>
-      </header>
+      <!-- LEFT PANEL: Pokedex Device -->
+      <div class="pokedex-device">
 
-      <section class="search-section">
-        <div class="search-wrapper">
-          <input type="text" placeholder="Enter Pokémon name..." class="search-input" />
-          <button class="click search-btn">SEARCH</button>
-        </div>
-        <p class="search-hint">Try: Pikachu, Charizard, Mewtwo</p>
-      </section>
-
-      <section class="card-section" id="card-section" style="display:none;">
-        <div class="poke-card">
-          <div class="card-left">
-            <div class="poke-number" id="poke-number">#000</div>
-            <div class="poke-img-wrapper">
-              <img id="poke-img" src="" alt="Pokemon sprite" />
-            </div>
-            <div class="poke-types" id="poke-types"></div>
+        <!-- Top section of device -->
+        <div class="device-top">
+          <div class="device-hinge"></div>
+          <div class="device-lights">
+            <div class="light light-blue"></div>
+            <div class="light light-red"></div>
+            <div class="light light-yellow"></div>
+            <div class="light light-green"></div>
           </div>
-          <div class="card-right">
-            <h2 class="poke-name" id="poke-name">—</h2>
-            <div class="poke-meta" id="poke-meta"></div>
-            <div class="stats-section">
-              <div class="stats-title">BASE STATS</div>
-              <div class="stats-list" id="stats-list"></div>
+          <div class="screen-bezel">
+            <div class="screen" id="screen">
+              <div class="screen-idle">
+                <div class="idle-ball"></div>
+                <p class="idle-text">SEARCH A POKÉMON</p>
+              </div>
             </div>
           </div>
+          <div class="device-dpad">
+            <div class="dpad-h"></div>
+            <div class="dpad-v"></div>
+            <div class="dpad-center"></div>
+          </div>
         </div>
-      </section>
 
-      <section class="locations-section" id="locations-section" style="display:none;">
-        <h2 class="section-title">ENCOUNTER LOCATIONS</h2>
-        <div class="locations-list" id="locations-list"></div>
-      </section>
+        <!-- Bottom section of device -->
+        <div class="device-bottom">
+          <div class="search-area">
+            <input type="text" class="search-input" placeholder="Enter name..." />
+            <button class="click search-btn">GO</button>
+          </div>
+          <p class="device-hint">GEN I · 151 POKÉMON</p>
+        </div>
 
-      <section class="starters-section">
-        <h2 class="section-title">GENERATION I — ALL 151 POKÉMON</h2>
-        <ul class="starters-grid">
+      </div>
+
+      <!-- RIGHT PANEL: Pokemon list + info -->
+      <div class="right-panel">
+
+        <div class="panel-header">
+          <span class="panel-title">NATIONAL POKÉDEX</span>
+          <span class="panel-sub">GENERATION I</span>
+        </div>
+
+        <!-- Locations output -->
+        <div class="locations-box" id="locations-box" style="display:none;">
+          <div class="box-label">ENCOUNTER LOCATIONS</div>
+          <div class="locations-list" id="locations-list"></div>
+        </div>
+
+        <!-- Pokemon grid -->
+        <div class="pokemon-grid-label">SELECT A POKÉMON</div>
+        <ul class="pokemon-grid">
           <li>Bulbasaur</li><li>Ivysaur</li><li>Venusaur</li>
           <li>Charmander</li><li>Charmeleon</li><li>Charizard</li>
           <li>Squirtle</li><li>Wartortle</li><li>Blastoise</li>
@@ -115,10 +123,10 @@
           <li>Dragonair</li><li>Dragonite</li><li>Mewtwo</li>
           <li>Mew</li>
         </ul>
-      </section>
+      </div>
 
     </div>
 
-    <script type="text/javascript" src="js/main.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
