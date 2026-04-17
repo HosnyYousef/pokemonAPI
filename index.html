@@ -1,51 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    	<meta charset="utf-8">
-    	<meta name="description" content="This is where your description goes">
-    	<meta name="keywords" content="one, two, three">
-
-		<title>Pokemon API</title>
-
-		<!-- external CSS link -->
-		<link rel="stylesheet" href="css/normalize.css">
-		<link rel="stylesheet" href="css/style.css">
-	</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pokédex — search any Pokémon and find their locations">
+    <title>Pokédex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
   <body>
 
-	<input type="text">
+    <div class="scanline"></div>
 
-    <button class='click'>search</button>
-		
-		<div class='result'></div>
-		
-		<h2>Type name of Pokemon</h2>
-    <h4>Locations</h4>
-		<!-- <img src="" alt=""> -->
-		<h3>List of Pokemon to start with:
-    <ul>
-      <li>Bulbasaur</li>
-      <li>Ivysaur</li>
-      <li>Venusaur</li>
-      <li>Charmander</li>
-      <li>Charmeleon</li>
-      <li>Charizard</li>
-      <li>Squirtle</li>
-      <li>Blastoise</li>
-      <li>Caterpie</li>
-      <li>Metapod</li>
-      <li>Butterfree</li>
-      <li>Weedle</li>
-      <li>Kakuna</li>
-      <li>Beedrill</li>
-      <li>Pidgey</li>
-      <li>Pidgeot</li>
-      <li>Rattata</li>
-      <li>Raticate</li>
-    </ul>
-    </h3>
+    <div class="container">
 
+      <header class="header">
+        <div class="pokeball-icon">
+          <div class="ball-top"></div>
+          <div class="ball-middle"></div>
+          <div class="ball-bottom"></div>
+        </div>
+        <h1 class="title">POKÉDEX</h1>
+        <p class="subtitle">NATIONAL ENCYCLOPEDIA v2.0</p>
+      </header>
 
-	<script type="text/javascript" src="js/main.js"></script>
+      <section class="search-section">
+        <div class="search-wrapper">
+          <input type="text" placeholder="Enter Pokémon name..." class="search-input" />
+          <button class="click search-btn">SEARCH</button>
+        </div>
+        <p class="search-hint">Try: Pikachu, Charizard, Mewtwo</p>
+      </section>
+
+      <section class="result-section">
+        <div class="result"></div>
+      </section>
+
+      <section class="locations-section" id="locations-section" style="display:none;">
+        <h2 class="section-title">ENCOUNTER LOCATIONS</h2>
+        <h4 class="locations-list"></h4>
+      </section>
+
+      <section class="starters-section">
+        <h2 class="section-title">STARTER POKÉMON</h2>
+        <ul class="starters-grid">
+          <li>Bulbasaur</li>
+          <li>Ivysaur</li>
+          <li>Venusaur</li>
+          <li>Charmander</li>
+          <li>Charmeleon</li>
+          <li>Charizard</li>
+          <li>Squirtle</li>
+          <li>Blastoise</li>
+          <li>Caterpie</li>
+          <li>Metapod</li>
+          <li>Butterfree</li>
+          <li>Weedle</li>
+          <li>Kakuna</li>
+          <li>Beedrill</li>
+          <li>Pidgey</li>
+          <li>Pidgeot</li>
+          <li>Rattata</li>
+          <li>Raticate</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <script type="text/javascript" src="js/main.js"></script>
+    <script>
+      // Enhance result display
+      const origGetFetch = getFetch;
+      document.querySelector('.click').addEventListener('click', function() {
+        const locSection = document.getElementById('locations-section');
+        const h4 = document.querySelector('.locations-list');
+        h4.innerHTML = '<span class="loading">SCANNING...</span>';
+        locSection.style.display = 'block';
+      });
+    </script>
   </body>
 </html>

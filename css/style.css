@@ -1,42 +1,299 @@
-/* Box Model Hack */
-* {
-     box-sizing: border-box;
+/* Box Model */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #e3350d;
+  --red-dark: #a8290a;
+  --yellow: #f7d02c;
+  --dark: #0a0a0f;
+  --dark-2: #111118;
+  --dark-3: #1a1a24;
+  --border: #2a2a3a;
+  --text: #e8e8f0;
+  --text-dim: #6b6b8a;
+  --green: #39d353;
+  --mono: 'DM Mono', monospace;
+  --pixel: 'Press Start 2P', monospace;
 }
 
-/* Clear fix hack */
-.clearfix:after {
-     content: ".";
-     display: block;
-     clear: both;
-     visibility: hidden;
-     line-height: 0;
-     height: 0;
+/* Scanline effect */
+.scanline {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
 }
-
-.clear {
-	clear: both;
-}
-
-/******************************************
-/* BASE STYLES
-/*******************************************/
 
 body {
-
+  background-color: var(--dark);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(227,53,13,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(247,208,44,0.04) 0%, transparent 50%);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  padding: 40px 20px 80px;
 }
 
-
-/******************************************
-/* LAYOUT
-/*******************************************/
-header {
-
+.container {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-footer {
-
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeDown 0.6s ease both;
 }
 
-/******************************************
-/* ADDITIONAL STYLES
-/*******************************************/
+.pokeball-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid var(--red);
+  overflow: hidden;
+}
+
+.ball-top {
+  background: var(--red);
+  height: 50%;
+}
+
+.ball-middle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 3px;
+  background: var(--text);
+  z-index: 2;
+}
+
+.ball-middle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--dark);
+}
+
+.ball-bottom {
+  background: var(--dark-2);
+  height: 50%;
+}
+
+.title {
+  font-family: var(--pixel);
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  color: var(--red);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 30px rgba(227,53,13,0.4), 3px 3px 0 var(--red-dark);
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* SEARCH */
+.search-section {
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.search-wrapper {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--dark-2);
+  box-shadow: 0 0 20px rgba(227,53,13,0.1);
+  transition: box-shadow 0.3s;
+}
+
+.search-wrapper:focus-within {
+  box-shadow: 0 0 30px rgba(227,53,13,0.25);
+  border-color: var(--red);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  padding: 16px 20px;
+  letter-spacing: 0.05em;
+}
+
+.search-input::placeholder {
+  color: var(--text-dim);
+}
+
+.search-btn {
+  background: var(--red);
+  border: none;
+  color: white;
+  font-family: var(--pixel);
+  font-size: 0.55rem;
+  padding: 16px 24px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.search-btn:hover {
+  background: var(--red-dark);
+}
+
+.search-btn:active {
+  transform: scale(0.97);
+}
+
+.search-hint {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+  padding-left: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* RESULT */
+.result-section {
+  margin-bottom: 32px;
+}
+
+.result {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  min-height: 20px;
+}
+
+/* LOCATIONS */
+.locations-section {
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 40px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.section-title {
+  font-family: var(--pixel);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.locations-list {
+  font-weight: normal;
+}
+
+.locations-list ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.locations-list ul li {
+  background: var(--dark-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  color: var(--green);
+  letter-spacing: 0.05em;
+  text-transform: capitalize;
+}
+
+.loading {
+  font-family: var(--pixel);
+  font-size: 0.5rem;
+  color: var(--yellow);
+  letter-spacing: 0.2em;
+  animation: blink 1s step-end infinite;
+}
+
+/* STARTERS */
+.starters-section {
+  background: var(--dark-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.starters-section .section-title {
+  margin-bottom: 20px;
+}
+
+.starters-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.starters-grid li {
+  background: var(--dark-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.starters-grid li:hover {
+  border-color: var(--red);
+  color: var(--yellow);
+  background: rgba(227,53,13,0.08);
+}
+
+/* Clicking a starter fills the search input */
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
